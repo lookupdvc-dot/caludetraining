@@ -250,6 +250,7 @@
         form.classList.add('hidden');
         successMsg.classList.remove('hidden');
         successMsg.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        celebrationEffect();
       } else {
         throw new Error('FormSubmit returned success: false');
       }
@@ -263,7 +264,107 @@
 })();
 
 /* ============================================================
-   5. FOOTER — auto-updating copyright year
+   5. CELEBRATION EFFECT — fires on successful form submission
+   ============================================================ */
+function celebrationEffect() {
+
+  // ── Voice note ──────────────────────────────────────────────
+  if ('speechSynthesis' in window) {
+    window.speechSynthesis.cancel();
+    var msg = new SpeechSynthesisUtterance("You da man! You gonna be rich!!");
+    msg.rate   = 0.85;
+    msg.pitch  = 1.3;
+    msg.volume = 1;
+    window.speechSynthesis.speak(msg);
+  }
+
+  // ── Long fart sound via Web Audio API ───────────────────────
+  (function fartSound() {
+    var ctx = new (window.AudioContext || window.webkitAudioContext)();
+    var duration = 2.4;
+
+    // Sawtooth oscillator — the "body" of the fart
+    var osc = ctx.createOscillator();
+    osc.type = 'sawtooth';
+    osc.frequency.setValueAtTime(90,  ctx.currentTime);
+    osc.frequency.linearRampToValueAtTime(38, ctx.currentTime + duration);
+
+    // LFO → flutter / vibration on the pitch
+    var lfo     = ctx.createOscillator();
+    var lfoGain = ctx.createGain();
+    lfo.frequency.value = 28;
+    lfoGain.gain.value  = 18;
+    lfo.connect(lfoGain);
+    lfoGain.connect(osc.frequency);
+
+    // White-noise layer for that extra "wet" texture
+    var noiseBuffer = ctx.createBuffer(1, ctx.sampleRate * duration, ctx.sampleRate);
+    var nd = noiseBuffer.getChannelData(0);
+    for (var i = 0; i < nd.length; i++) nd[i] = Math.random() * 2 - 1;
+    var noise = ctx.createBufferSource();
+    noise.buffer = noiseBuffer;
+
+    var noiseFilter = ctx.createBiquadFilter();
+    noiseFilter.type = 'bandpass';
+    noiseFilter.frequency.setValueAtTime(180, ctx.currentTime);
+    noiseFilter.frequency.linearRampToValueAtTime(60, ctx.currentTime + duration);
+    noiseFilter.Q.value = 0.6;
+
+    // Master gain envelope — ramp up fast, hold, then trail off
+    var gain = ctx.createGain();
+    gain.gain.setValueAtTime(0,   ctx.currentTime);
+    gain.gain.linearRampToValueAtTime(1.0, ctx.currentTime + 0.04);
+    gain.gain.setValueAtTime(1.0, ctx.currentTime + duration - 0.6);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
+
+    var oscGain   = ctx.createGain();  oscGain.gain.value   = 0.65;
+    var noiseGain = ctx.createGain();  noiseGain.gain.value = 0.40;
+
+    osc.connect(oscGain);
+    oscGain.connect(gain);
+    noise.connect(noiseFilter);
+    noiseFilter.connect(noiseGain);
+    noiseGain.connect(gain);
+    gain.connect(ctx.destination);
+
+    lfo.start();   osc.start();   noise.start();
+    osc.stop(ctx.currentTime + duration);
+    lfo.stop(ctx.currentTime + duration);
+    noise.stop(ctx.currentTime + duration);
+  })();
+
+  // ── Wind blowing particles ───────────────────────────────────
+  var icons = ['💨','💸','🤑','💰','💨','🌬️','💸','💨','🤑'];
+  for (var p = 0; p < 24; p++) {
+    (function spawnParticle(idx) {
+      setTimeout(function () {
+        var el       = document.createElement('span');
+        var startY   = 5 + Math.random() * 85;          // % from top
+        var drift    = (Math.random() - 0.5) * 120;     // vertical drift px
+        var spin     = (Math.random() < 0.5 ? '' : '-') + (180 + Math.random() * 360) + 'deg';
+        var dur      = (1.0 + Math.random() * 1.4).toFixed(2);
+        var delay    = (Math.random() * 0.3).toFixed(2);
+        var size     = 22 + Math.floor(Math.random() * 26);
+
+        el.className   = 'wind-particle';
+        el.textContent = icons[idx % icons.length];
+        el.style.cssText =
+          'top:' + startY + 'vh;' +
+          'font-size:' + size + 'px;' +
+          '--drift:' + drift + 'px;' +
+          '--spin:' + spin + ';' +
+          'animation-duration:' + dur + 's;' +
+          'animation-delay:' + delay + 's;';
+
+        document.body.appendChild(el);
+        setTimeout(function () { el.remove(); }, (parseFloat(dur) + parseFloat(delay) + 0.3) * 1000);
+      }, idx * 90);
+    })(p);
+  }
+}
+
+/* ============================================================
+   6. FOOTER — auto-updating copyright year
    ============================================================ */
 (function setFooterYear() {
   const el = document.getElementById('year');
