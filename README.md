@@ -15,7 +15,7 @@ A static wealth advisory one-pager built with vanilla HTML, CSS, and JavaScript 
 | About | Firm story and fee-only fiduciary values |
 | Testimonials | Auto-advancing carousel (3 client quotes, 5-second interval) |
 | Share strip | LinkedIn, Twitter/X, WhatsApp, and copy-link sharing buttons |
-| Contact | Two-column lead magnet — value proposition + enquiry form (FormSubmit AJAX) |
+| Contact | Two-column lead magnet — value proposition + enquiry form (FormSubmit AJAX); on success: voice note, fart sound, wind particles |
 | Footer | Brand, nav links, social media icons (LinkedIn, Twitter/X, Facebook, Instagram) |
 | WhatsApp Widget | Floating chatbot (bottom-right) with 4 suggested query chips |
 
@@ -25,7 +25,7 @@ A static wealth advisory one-pager built with vanilla HTML, CSS, and JavaScript 
 |---|---|
 | `index.html` | All markup |
 | `styles.css` | All styles — CSS custom properties, responsive layout, animations |
-| `script.js` | Navbar, scroll animations, carousel, form logic, share strip, WhatsApp widget |
+| `script.js` | Navbar, scroll animations, carousel, form logic, share strip, WhatsApp widget, celebration effect |
 | `.github/workflows/deploy.yml` | GitHub Actions deploy pipeline |
 | `.claude/skills/frontend-design.md` | Claude skill: audit and improve frontend design |
 | `.claude/skills/seo-audit.md` | Claude skill: audit and fix on-page SEO |
