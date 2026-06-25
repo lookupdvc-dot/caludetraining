@@ -4,6 +4,8 @@ A static one-page wealth advisory website built with vanilla HTML, CSS, and Java
 
 **Live site:** https://lookupdvc-dot.github.io/caludetraining/
 
+![Site preview](screenshots/preview.png)
+
 ## Sections
 
 | Section | Content |
