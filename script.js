@@ -202,35 +202,31 @@
     errorBanner.classList.add('hidden');
 
     if (!validate()) {
-      // Move focus to first invalid field for accessibility
       const firstInvalid = form.querySelector('.invalid');
       if (firstInvalid) firstInvalid.focus();
       return;
     }
 
-    submitBtn.disabled   = true;
+    submitBtn.disabled    = true;
     submitBtn.textContent = 'Sending…';
+
+    // Pre-unlock AudioContext + SpeechSynthesis NOW, while still inside
+    // the synchronous user-gesture tick — browsers block both after an await.
+    var _audioCtx = null;
+    try { _audioCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch (_) {}
+    if ('speechSynthesis' in window) {
+      var warmup = new SpeechSynthesisUtterance(' ');
+      warmup.volume = 0;
+      window.speechSynthesis.speak(warmup);
+    }
 
     const interest = document.getElementById('f-interest').value;
     const phone    = document.getElementById('f-phone').value.trim();
 
     try {
-      // ─────────────────────────────────────────────────────────────────────
-      // REPLACE_WITH_YOUR_EMAIL — swap the placeholder below with your actual
-      // email address before going live, e.g.:
-      //   'https://formsubmit.co/ajax/you@example.com'
-      //
-      // FormSubmit activation: the very first submission to a new email
-      // address triggers a confirmation email from FormSubmit. Click the
-      // activation link in that email — the form will work for all
-      // subsequent submissions after that one-time step.
-      // ─────────────────────────────────────────────────────────────────────
       const response = await fetch('https://formsubmit.co/ajax/dinesh@redbeaconam.com', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept':       'application/json',
-        },
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
         body: JSON.stringify({
           name:      fields.name.value.trim(),
           email:     fields.email.value.trim(),
@@ -250,7 +246,7 @@
         form.classList.add('hidden');
         successMsg.classList.remove('hidden');
         successMsg.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        celebrationEffect();
+        celebrationEffect(_audioCtx);
       } else {
         throw new Error('FormSubmit returned success: false');
       }
@@ -265,8 +261,9 @@
 
 /* ============================================================
    5. CELEBRATION EFFECT — fires on successful form submission
+      Call window.testParty() in the console to test at any time.
    ============================================================ */
-function celebrationEffect() {
+function celebrationEffect(audioCtx) {
 
   // ── Voice note ──────────────────────────────────────────────
   if ('speechSynthesis' in window) {
@@ -279,17 +276,22 @@ function celebrationEffect() {
   }
 
   // ── Long fart sound via Web Audio API ───────────────────────
-  (function fartSound() {
-    var ctx = new (window.AudioContext || window.webkitAudioContext)();
-    var duration = 2.4;
+  // Accepts a pre-unlocked AudioContext so the browser doesn't block it
+  // after an async await breaks the user-gesture chain.
+  (function fartSound(ctx) {
+    if (!ctx) {
+      try { ctx = new (window.AudioContext || window.webkitAudioContext)(); } catch (_) { return; }
+    }
+    if (ctx.state === 'suspended') ctx.resume();
 
-    // Sawtooth oscillator — the "body" of the fart
+    var duration = 2.4;
+    var t = ctx.currentTime;
+
     var osc = ctx.createOscillator();
     osc.type = 'sawtooth';
-    osc.frequency.setValueAtTime(90,  ctx.currentTime);
-    osc.frequency.linearRampToValueAtTime(38, ctx.currentTime + duration);
+    osc.frequency.setValueAtTime(90, t);
+    osc.frequency.linearRampToValueAtTime(38, t + duration);
 
-    // LFO → flutter / vibration on the pitch
     var lfo     = ctx.createOscillator();
     var lfoGain = ctx.createGain();
     lfo.frequency.value = 28;
@@ -297,7 +299,6 @@ function celebrationEffect() {
     lfo.connect(lfoGain);
     lfoGain.connect(osc.frequency);
 
-    // White-noise layer for that extra "wet" texture
     var noiseBuffer = ctx.createBuffer(1, ctx.sampleRate * duration, ctx.sampleRate);
     var nd = noiseBuffer.getChannelData(0);
     for (var i = 0; i < nd.length; i++) nd[i] = Math.random() * 2 - 1;
@@ -306,55 +307,51 @@ function celebrationEffect() {
 
     var noiseFilter = ctx.createBiquadFilter();
     noiseFilter.type = 'bandpass';
-    noiseFilter.frequency.setValueAtTime(180, ctx.currentTime);
-    noiseFilter.frequency.linearRampToValueAtTime(60, ctx.currentTime + duration);
+    noiseFilter.frequency.setValueAtTime(180, t);
+    noiseFilter.frequency.linearRampToValueAtTime(60, t + duration);
     noiseFilter.Q.value = 0.6;
 
-    // Master gain envelope — ramp up fast, hold, then trail off
     var gain = ctx.createGain();
-    gain.gain.setValueAtTime(0,   ctx.currentTime);
-    gain.gain.linearRampToValueAtTime(1.0, ctx.currentTime + 0.04);
-    gain.gain.setValueAtTime(1.0, ctx.currentTime + duration - 0.6);
-    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
+    gain.gain.setValueAtTime(0,   t);
+    gain.gain.linearRampToValueAtTime(1.0, t + 0.04);
+    gain.gain.setValueAtTime(1.0, t + duration - 0.6);
+    gain.gain.exponentialRampToValueAtTime(0.001, t + duration);
 
     var oscGain   = ctx.createGain();  oscGain.gain.value   = 0.65;
     var noiseGain = ctx.createGain();  noiseGain.gain.value = 0.40;
 
-    osc.connect(oscGain);
-    oscGain.connect(gain);
-    noise.connect(noiseFilter);
-    noiseFilter.connect(noiseGain);
-    noiseGain.connect(gain);
+    osc.connect(oscGain);     oscGain.connect(gain);
+    noise.connect(noiseFilter); noiseFilter.connect(noiseGain); noiseGain.connect(gain);
     gain.connect(ctx.destination);
 
-    lfo.start();   osc.start();   noise.start();
-    osc.stop(ctx.currentTime + duration);
-    lfo.stop(ctx.currentTime + duration);
-    noise.stop(ctx.currentTime + duration);
-  })();
+    lfo.start(); osc.start(); noise.start();
+    osc.stop(t + duration); lfo.stop(t + duration); noise.stop(t + duration);
+  })(audioCtx);
 
   // ── Wind blowing particles ───────────────────────────────────
   var icons = ['💨','💸','🤑','💰','💨','🌬️','💸','💨','🤑'];
   for (var p = 0; p < 24; p++) {
     (function spawnParticle(idx) {
       setTimeout(function () {
-        var el       = document.createElement('span');
-        var startY   = 5 + Math.random() * 85;          // % from top
-        var drift    = (Math.random() - 0.5) * 120;     // vertical drift px
-        var spin     = (Math.random() < 0.5 ? '' : '-') + (180 + Math.random() * 360) + 'deg';
-        var dur      = (1.0 + Math.random() * 1.4).toFixed(2);
-        var delay    = (Math.random() * 0.3).toFixed(2);
-        var size     = 22 + Math.floor(Math.random() * 26);
+        var el    = document.createElement('span');
+        var startY = 5 + Math.random() * 85;
+        var endY   = startY + (Math.random() - 0.5) * 30;
+        var dur    = (1.0 + Math.random() * 1.4).toFixed(2);
+        var delay  = (Math.random() * 0.4).toFixed(2);
+        var size   = 22 + Math.floor(Math.random() * 26);
+        var spin   = Math.floor((Math.random() < 0.5 ? 1 : -1) * (180 + Math.random() * 360));
 
         el.className   = 'wind-particle';
         el.textContent = icons[idx % icons.length];
+
+        // Write the full animation shorthand from JS so there's no
+        // conflict with the class-level shorthand that sets duration to 0s.
         el.style.cssText =
-          'top:' + startY + 'vh;' +
           'font-size:' + size + 'px;' +
-          '--drift:' + drift + 'px;' +
-          '--spin:' + spin + ';' +
-          'animation-duration:' + dur + 's;' +
-          'animation-delay:' + delay + 's;';
+          '--start-y:' + startY + 'vh;' +
+          '--end-y:' + endY + 'vh;' +
+          '--spin:' + spin + 'deg;' +
+          'animation: windBlow ' + dur + 's linear ' + delay + 's both;';
 
         document.body.appendChild(el);
         setTimeout(function () { el.remove(); }, (parseFloat(dur) + parseFloat(delay) + 0.3) * 1000);
@@ -362,6 +359,17 @@ function celebrationEffect() {
     })(p);
   }
 }
+
+// Console test hook — open DevTools and run: testParty()
+window.testParty = function () {
+  var ctx = null;
+  try { ctx = new (window.AudioContext || window.webkitAudioContext)(); } catch (_) {}
+  if ('speechSynthesis' in window) {
+    var w = new SpeechSynthesisUtterance(' '); w.volume = 0;
+    window.speechSynthesis.speak(w);
+  }
+  celebrationEffect(ctx);
+};
 
 /* ============================================================
    6. FOOTER — auto-updating copyright year

@@ -1470,19 +1470,17 @@ textarea.invalid {
    CELEBRATION — wind particles (form success)
    ============================================================ */
 @keyframes windBlow {
-  0%   { transform: translateX(-120px) translateY(0)             rotate(0deg);        opacity: 0; }
+  0%   { left: -80px;   top: var(--start-y, 50vh); opacity: 0; transform: rotate(0deg); }
   8%   { opacity: 1; }
   92%  { opacity: 1; }
-  100% { transform: translateX(110vw)  translateY(var(--drift))  rotate(var(--spin)); opacity: 0; }
+  100% { left: 110vw;   top: var(--end-y, 50vh);   opacity: 0; transform: rotate(var(--spin, 360deg)); }
 }
 
 .wind-particle {
   position: fixed;
-  left: 0;
   z-index: 99999;
   pointer-events: none;
   user-select: none;
   line-height: 1;
-  animation: windBlow linear both;
-  will-change: transform, opacity;
+  will-change: left, top, transform, opacity;
 }
