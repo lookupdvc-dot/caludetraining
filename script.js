@@ -265,20 +265,8 @@
    ============================================================ */
 function celebrationEffect(audioCtx) {
 
-  // ── Voice note ──────────────────────────────────────────────
-  if ('speechSynthesis' in window) {
-    window.speechSynthesis.cancel();
-    var msg = new SpeechSynthesisUtterance("You da man! You gonna be rich!!");
-    msg.rate   = 0.85;
-    msg.pitch  = 1.3;
-    msg.volume = 1;
-    window.speechSynthesis.speak(msg);
-  }
-
-  // ── Long fart sound via Web Audio API ───────────────────────
-  // Accepts a pre-unlocked AudioContext so the browser doesn't block it
-  // after an async await breaks the user-gesture chain.
-  (function fartSound(ctx) {
+  // ── Voice note → fart after 2 s pause ──────────────────────
+  function playFart(ctx) {
     if (!ctx) {
       try { ctx = new (window.AudioContext || window.webkitAudioContext)(); } catch (_) { return; }
     }
@@ -326,7 +314,19 @@ function celebrationEffect(audioCtx) {
 
     lfo.start(); osc.start(); noise.start();
     osc.stop(t + duration); lfo.stop(t + duration); noise.stop(t + duration);
-  })(audioCtx);
+  }
+
+  if ('speechSynthesis' in window) {
+    window.speechSynthesis.cancel();
+    var msg = new SpeechSynthesisUtterance("You da man! You gonna be rich!!");
+    msg.rate   = 0.85;
+    msg.pitch  = 1.3;
+    msg.volume = 1;
+    msg.onend  = function () { setTimeout(function () { playFart(audioCtx); }, 2000); };
+    window.speechSynthesis.speak(msg);
+  } else {
+    playFart(audioCtx);
+  }
 
   // ── Wind blowing particles ───────────────────────────────────
   var icons = ['💨','💸','🤑','💰','💨','🌬️','💸','💨','🤑'];
