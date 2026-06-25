@@ -257,7 +257,7 @@
     } catch (err) {
       errorBanner.classList.remove('hidden');
       submitBtn.disabled    = false;
-      submitBtn.textContent = 'Book a Consultation';
+      submitBtn.textContent = 'Claim My Free Strategy Session →';
     }
   });
 })();

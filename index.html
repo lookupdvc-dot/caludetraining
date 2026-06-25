@@ -243,70 +243,115 @@
   <!-- ==================== ENQUIRY FORM ==================== -->
   <section id="contact" class="contact" aria-labelledby="contact-heading">
     <div class="container">
-      <div class="section-header fade-up">
-        <p class="section-eyebrow">Get in Touch</p>
-        <h2 id="contact-heading">Begin the conversation</h2>
-        <p class="section-sub">Tell us a little about what you're looking for. We'll be in touch within one business day.</p>
-      </div>
+      <div class="contact-grid">
 
-      <div class="form-wrapper fade-up">
-        <form id="enquiry-form" novalidate aria-label="Consultation enquiry form">
-          <!-- Honeypot: visible to bots, hidden from real users via CSS -->
-          <input type="text" name="_honey" id="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" />
+        <!-- Value proposition -->
+        <div class="contact-value fade-up">
+          <p class="section-eyebrow">Free Strategy Session</p>
+          <h2 id="contact-heading">Claim your complimentary<br>Wealth Strategy Session</h2>
+          <p class="contact-lead">In 45 minutes, we&rsquo;ll map your exact path to financial independence &mdash; personalised to your income, goals, and timeline. No sales pitch. No obligation. Just clarity.</p>
 
-          <div class="form-row">
-            <div class="form-group">
-              <label for="f-name">Full Name <span class="required" aria-label="required">*</span></label>
-              <input type="text" id="f-name" name="name" autocomplete="name" required aria-required="true" aria-describedby="f-name-error" />
-              <span class="field-error" id="f-name-error" role="alert" aria-live="polite"></span>
-            </div>
-            <div class="form-group">
-              <label for="f-email">Email Address <span class="required" aria-label="required">*</span></label>
-              <input type="email" id="f-email" name="email" autocomplete="email" required aria-required="true" aria-describedby="f-email-error" />
-              <span class="field-error" id="f-email-error" role="alert" aria-live="polite"></span>
-            </div>
+          <ul class="contact-benefits" aria-label="What you receive">
+            <li>
+              <span class="contact-benefit-icon" aria-hidden="true">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><polyline points="2 6 5 9 10 3" stroke="white" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              <span>A personalised wealth assessment (valued at &pound;500) &mdash; at no cost to you</span>
+            </li>
+            <li>
+              <span class="contact-benefit-icon" aria-hidden="true">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><polyline points="2 6 5 9 10 3" stroke="white" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              <span>Your three highest-impact financial moves for the next 12 months</span>
+            </li>
+            <li>
+              <span class="contact-benefit-icon" aria-hidden="true">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><polyline points="2 6 5 9 10 3" stroke="white" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              <span>A clear retirement date projected from your actual numbers</span>
+            </li>
+          </ul>
+
+          <div class="contact-urgency">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <span>Only <strong>4 spots</strong> available this month &mdash; we respond within one business day.</span>
           </div>
 
-          <div class="form-row">
-            <div class="form-group">
-              <label for="f-phone">Phone Number <span class="optional">(optional)</span></label>
-              <input type="tel" id="f-phone" name="phone" autocomplete="tel" />
-            </div>
-            <div class="form-group">
-              <label for="f-interest">Area of Interest</label>
-              <select id="f-interest" name="interest">
-                <option value="Wealth Planning">Wealth Planning</option>
-                <option value="Retirement Strategy">Retirement Strategy</option>
-                <option value="Portfolio Management">Portfolio Management</option>
-                <option value="Estate Planning">Estate Planning</option>
-                <option value="Other">Other</option>
-              </select>
-            </div>
+          <div class="contact-mini-quote">
+            <blockquote>&ldquo;Worth every minute &mdash; they showed me I was seven years ahead of where I thought I was.&rdquo;</blockquote>
+            <cite>&mdash; James T., Business Owner, Bristol</cite>
           </div>
-
-          <div class="form-group">
-            <label for="f-message">Your Enquiry <span class="required" aria-label="required">*</span></label>
-            <textarea id="f-message" name="message" rows="5" required aria-required="true" aria-describedby="f-message-error" placeholder="Tell us about your situation and what you're hoping to achieve&#8230;"></textarea>
-            <span class="field-error" id="f-message-error" role="alert" aria-live="polite"></span>
-          </div>
-
-          <button type="submit" class="btn btn-primary btn-submit" id="submit-btn">
-            Book a Consultation
-          </button>
-        </form>
-
-        <div class="form-success hidden" id="form-success" role="alert" aria-live="polite">
-          <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <circle cx="12" cy="12" r="10"/>
-            <polyline points="9 12 11 14 15 10"/>
-          </svg>
-          <h3>Thank you — we'll be in touch.</h3>
-          <p>Expect to hear from us within one business day.</p>
         </div>
 
-        <div class="form-error-banner hidden" id="form-error" role="alert" aria-live="assertive">
-          <p>Something went wrong. Please try again, or email us directly.</p>
+        <!-- Form card -->
+        <div class="contact-form-col fade-up">
+          <p class="form-headline">Book your session</p>
+          <p class="form-subline">Fill in the form below &mdash; we&rsquo;ll confirm within one business day.</p>
+
+          <form id="enquiry-form" novalidate aria-label="Consultation enquiry form">
+            <!-- Honeypot: visible to bots, hidden from real users via CSS -->
+            <input type="text" name="_honey" id="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="f-name">Full Name <span class="required" aria-label="required">*</span></label>
+                <input type="text" id="f-name" name="name" autocomplete="name" required aria-required="true" aria-describedby="f-name-error" placeholder="e.g. Sarah Mitchell" />
+                <span class="field-error" id="f-name-error" role="alert" aria-live="polite"></span>
+              </div>
+              <div class="form-group">
+                <label for="f-email">Email Address <span class="required" aria-label="required">*</span></label>
+                <input type="email" id="f-email" name="email" autocomplete="email" required aria-required="true" aria-describedby="f-email-error" placeholder="you@example.com" />
+                <span class="field-error" id="f-email-error" role="alert" aria-live="polite"></span>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="f-phone">Phone Number <span class="optional">(optional)</span></label>
+                <input type="tel" id="f-phone" name="phone" autocomplete="tel" placeholder="+44 7700 000000" />
+              </div>
+              <div class="form-group">
+                <label for="f-interest">Area of Interest</label>
+                <select id="f-interest" name="interest">
+                  <option value="Wealth Planning">Wealth Planning</option>
+                  <option value="Retirement Strategy">Retirement Strategy</option>
+                  <option value="Portfolio Management">Portfolio Management</option>
+                  <option value="Estate Planning">Estate Planning</option>
+                  <option value="Other">Other / Not sure yet</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="f-message">What&rsquo;s your biggest financial concern right now? <span class="required" aria-label="required">*</span></label>
+              <textarea id="f-message" name="message" rows="4" required aria-required="true" aria-describedby="f-message-error" placeholder="Tell us briefly what you&rsquo;re working towards or what&rsquo;s keeping you up at night financially&#8230;"></textarea>
+              <span class="field-error" id="f-message-error" role="alert" aria-live="polite"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-submit" id="submit-btn">
+              Claim My Free Strategy Session &rarr;
+            </button>
+
+            <p class="form-trust">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 2L3 6.5v5.25C3 17.1 7 21.8 12 23c5-1.2 9-5.9 9-11.25V6.5L12 2z"/><polyline points="9 12 11 14 15 10"/></svg>
+              Your details are private. We never share or sell your information.
+            </p>
+          </form>
+
+          <div class="form-success hidden" id="form-success" role="alert" aria-live="polite">
+            <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"/>
+              <polyline points="9 12 11 14 15 10"/>
+            </svg>
+            <h3>You&rsquo;re booked in &mdash; we&rsquo;ll be in touch.</h3>
+            <p>Expect to hear from us within one business day.</p>
+          </div>
+
+          <div class="form-error-banner hidden" id="form-error" role="alert" aria-live="assertive">
+            <p>Something went wrong. Please try again, or email us directly.</p>
+          </div>
         </div>
+
       </div>
     </div>
   </section>

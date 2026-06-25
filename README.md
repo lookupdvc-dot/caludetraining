@@ -1,6 +1,6 @@
 # Sterling & Vale Advisory
 
-A static one-page wealth advisory website built with vanilla HTML, CSS, and JavaScript — no frameworks, no build tools.
+A static one-page wealth advisory website built with vanilla HTML, CSS, and JavaScript — no frameworks, no build tools. Features a rich purple theme and a lead-magnet contact section wired to FormSubmit.
 
 **Live site:** https://lookupdvc-dot.github.io/caludetraining/
 
@@ -14,16 +14,18 @@ A static one-page wealth advisory website built with vanilla HTML, CSS, and Java
 | Services | Wealth Planning, Retirement Strategy, Portfolio Management, Estate Planning |
 | About | Firm story and fee-only fiduciary values |
 | Testimonials | Auto-advancing carousel (3 client quotes, 5-second interval) |
-| Contact | Enquiry form with client-side validation, submits via FormSubmit |
+| Contact | Two-column lead magnet — value proposition + form card, submits to lookupdvc@gmail.com via FormSubmit |
 
 ## Files
 
 | File | Purpose |
 |---|---|
 | `index.html` | All markup |
-| `styles.css` | All styles — colour tokens in `:root` at the top |
+| `styles.css` | All styles — purple colour tokens (`--navy`, `--purple-vivid`) in `:root` |
 | `script.js` | Navbar, scroll animations, carousel, and form logic |
 | `.github/workflows/deploy.yml` | GitHub Actions deploy pipeline |
+| `.claude/skills/frontend-design.md` | Claude skill: audit and improve frontend design |
+| `.claude/skills/seo-audit.md` | Claude skill: audit and fix on-page SEO |
 
 ## Running Locally
 
