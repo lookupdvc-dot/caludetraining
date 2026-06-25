@@ -1022,6 +1022,62 @@ textarea.invalid {
   color: rgba(255,255,255,0.4);
 }
 
+/* Social bar */
+.footer-social {
+  border-top: 1px solid rgba(255,255,255,0.07);
+  padding: 1.25rem 0;
+}
+
+.footer-social-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+}
+
+.footer-social-label {
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.38);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.footer-social-links {
+  display: flex;
+  gap: 0.625rem;
+  align-items: center;
+}
+
+.social-link {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: rgba(255,255,255,0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    background var(--transition),
+    border-color var(--transition),
+    color var(--transition),
+    transform 0.15s ease;
+}
+
+.social-link:hover,
+.social-link:focus-visible {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: var(--white);
+  transform: translateY(-2px);
+}
+
+.social-link:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+
 .footer-disclaimer {
   border-top: 1px solid rgba(255,255,255,0.07);
   padding: 1.25rem 0;
