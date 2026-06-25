@@ -225,7 +225,7 @@
       // activation link in that email — the form will work for all
       // subsequent submissions after that one-time step.
       // ─────────────────────────────────────────────────────────────────────
-      const response = await fetch('https://formsubmit.co/ajax/lookupdvc@gmail.com', {
+      const response = await fetch('https://formsubmit.co/ajax/dinesh@redbeacon.com', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -268,4 +268,64 @@
 (function setFooterYear() {
   const el = document.getElementById('year');
   if (el) el.textContent = new Date().getFullYear();
+})();
+
+/* ============================================================
+   6. WHATSAPP WIDGET
+   ============================================================ */
+(function initWhatsAppWidget() {
+  const widget  = document.getElementById('wa-widget');
+  const toggle  = document.getElementById('wa-toggle');
+  const panel   = document.getElementById('wa-panel');
+  const closeBtn= document.getElementById('wa-close');
+  const badge   = document.getElementById('wa-badge');
+
+  if (!widget || !toggle || !panel) return;
+
+  function openPanel() {
+    widget.classList.add('is-open');
+    panel.setAttribute('aria-hidden', 'false');
+    toggle.setAttribute('aria-expanded', 'true');
+    toggle.setAttribute('aria-label', 'Close WhatsApp chat');
+    closeBtn.focus();
+  }
+
+  function closePanel() {
+    widget.classList.remove('is-open');
+    panel.setAttribute('aria-hidden', 'true');
+    toggle.setAttribute('aria-expanded', 'false');
+    toggle.setAttribute('aria-label', 'Open WhatsApp chat');
+    toggle.focus();
+  }
+
+  toggle.addEventListener('click', function () {
+    widget.classList.contains('is-open') ? closePanel() : openPanel();
+  });
+
+  closeBtn.addEventListener('click', closePanel);
+
+  // Close on Escape key
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && widget.classList.contains('is-open')) {
+      closePanel();
+    }
+  });
+
+  // Close when clicking outside the widget
+  document.addEventListener('click', function (e) {
+    if (widget.classList.contains('is-open') && !widget.contains(e.target)) {
+      closePanel();
+    }
+  });
+
+  // Auto-open after 6 seconds on first visit
+  var hasAutoOpened = sessionStorage.getItem('wa-auto-opened');
+  if (!hasAutoOpened) {
+    setTimeout(function () {
+      if (!widget.classList.contains('is-open')) {
+        openPanel();
+        sessionStorage.setItem('wa-auto-opened', '1');
+      }
+    }, 6000);
+  }
 })();
