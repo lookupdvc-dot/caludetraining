@@ -225,7 +225,7 @@
       // activation link in that email — the form will work for all
       // subsequent submissions after that one-time step.
       // ─────────────────────────────────────────────────────────────────────
-      const response = await fetch('https://formsubmit.co/ajax/dinesh@redbeacon.com', {
+      const response = await fetch('https://formsubmit.co/ajax/dinesh@redbeaconam.com', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
