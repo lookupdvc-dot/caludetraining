@@ -7,11 +7,11 @@
    ============================================================ */
 :root {
   /* Palette */
-  --navy:          #1e0a4e;
-  --navy-light:    #2d1a6e;
-  --navy-mid:      #3d2494;
-  --purple-vivid:  #7c3aed;
-  --purple-glow:   rgba(124, 58, 237, 0.18);
+  --navy:          #450a0a;
+  --navy-light:    #7f1d1d;
+  --navy-mid:      #991b1b;
+  --purple-vivid:  #ef4444;
+  --purple-glow:   rgba(239, 68, 68, 0.18);
   --slate:         #475569;
   --gold:          #b5924c;
   --gold-light:    #d4af70;
@@ -418,7 +418,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .service-icon {
   width: 52px;
   height: 52px;
-  background: rgba(30,10,78,0.07);
+  background: rgba(69,10,10,0.07);
   border-radius: var(--radius-md);
   display: flex;
   align-items: center;
@@ -660,7 +660,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
    ============================================================ */
 .contact {
   padding: 5.5rem 0;
-  background: linear-gradient(160deg, #f5f3ff 0%, #ede9fe 60%, #f5f3ff 100%);
+  background: linear-gradient(160deg, #fff1f2 0%, #ffe4e6 60%, #fff1f2 100%);
   position: relative;
   overflow: hidden;
 }
@@ -669,7 +669,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   content: '';
   position: absolute;
   inset: 0;
-  background-image: radial-gradient(circle, rgba(124,58,237,0.06) 1px, transparent 1px);
+  background-image: radial-gradient(circle, rgba(239,68,68,0.06) 1px, transparent 1px);
   background-size: 28px 28px;
   pointer-events: none;
 }
@@ -734,8 +734,8 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   display: flex;
   align-items: center;
   gap: 0.625rem;
-  background: rgba(124,58,237,0.07);
-  border: 1px solid rgba(124,58,237,0.18);
+  background: rgba(239,68,68,0.07);
+  border: 1px solid rgba(239,68,68,0.18);
   border-radius: var(--radius-sm);
   padding: 0.75rem 1rem;
   font-size: 0.875rem;
@@ -774,8 +774,8 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   background: var(--white);
   border-radius: var(--radius-lg);
   padding: 2.5rem;
-  box-shadow: 0 8px 40px rgba(30,10,78,0.14);
-  border: 1px solid rgba(124,58,237,0.1);
+  box-shadow: 0 8px 40px rgba(69,10,10,0.14);
+  border: 1px solid rgba(239,68,68,0.1);
   position: relative;
 }
 
@@ -875,7 +875,7 @@ select:focus,
 textarea:focus {
   outline: none;
   border-color: var(--navy);
-  box-shadow: 0 0 0 3px rgba(30,10,78,0.1);
+  box-shadow: 0 0 0 3px rgba(69,10,10,0.1);
 }
 
 input.invalid,
